@@ -1,0 +1,79 @@
+DEMO FOR CAPABILITIES
+
+sleep 1000 &
+ps -ef | grep sleep
+ getpcaps 102130
+ cat /proc/102130/status | grep -i cap
+ capsh --decode=000001ffffffffff
+ 
+ SAME WITH REGULAR USER NOW
+ 
+ ==============================================================================
+ 
+ Show the usecase with NC command and try to bind to port 80 using regular user.It will fail.
+ 
+ nc -vl 80
+ 
+ Then run command
+ capsh --print -- -c "nc -v -l 80"  
+ 
+ this will show that we dont have any capabilities with us.
+ 
+ DO same with ROOT USER NOW..
+ 
+ =====================================================================      
+ 1042  sudo setcap -r  ./nc
+ 1043  getcap ./nc
+ 1044  sudo setcap cap_net_bind_service+p ./nc
+ 1045  getcap ./nc
+ 1046  sudo setcap -r  ./nc
+ 1047  getcap ./nc
+ 1048  ./nc -vl 80
+ 1049  history | tail -n 10
+
+ 
+ Go to folder demo-ldd &  run the command
+  ./nc -vl 80
+ 
+ it will fail. Run command
+  getcap ./nc
+ 
+ then add capabilities to the file
+  sudo setcap cap_net_bind_service+p ./nc
+  show getcap ./nc
+ 
+ and now run 
+  ./nc -vl 80 
+ 
+ Now it is a listening state
+ on another terminal try running
+ capsh --print -- -c "./nc -v -l 80" and see capabilities
+ 
+ remove capability by running 
+ sudo setcap -r  ./nc
+  and now it will not be able to bind to port 80.
+  
+   ==================================================
+   
+   CONTAINER DEMO
+RUN command to run ncat as root user and it will work.
+podman run -it --rm  -v /usr/bin:/usr/bin -v /usr/lib64:/usr/lib64 -v /usr/lib:/usr/lib fedora bash
+
+ncat -vl 80
+
+RUN AS REGULAR USER AND PROCESS DOES NOT START
+
+podman run -it --rm -u 1234   -v /usr/bin:/usr/bin -v /usr/lib64:/usr/lib64 -v /usr/lib:/usr/lib fedora bash
+
+RUN AS ROOT AND DROP CAPABILITIES
+
+podman run -it --rm --cap-drop all  -v /usr/bin:/usr/bin -v /usr/lib64:/usr/lib64 -v /usr/lib:/usr/lib fedora bash
+
+RUN AS REGULAR USER AND ADD CAPABILITIES TO RUN PROCESS
+
+podman run -it --rm -u 1234 --cap-add cap_net_bind_service --cap-drop all  -v /usr/bin:/usr/bin -v /usr/lib64:/usr/lib64 -v /usr/lib:/usr/lib fedora bash
+
+
+==================================================
+
+
