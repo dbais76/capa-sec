@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: demo-dep
+  name: demo-dep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: demo-dep
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: demo-dep
+    spec:
+      containers:
+      - image: registry.access.redhat.com/rhscl/httpd-24-rhel7
+        name: demo-web
+      - env:
+          - name: MYSQL_ROOT_PASSWORD
+            value: abcd1234
+        image: registry.access.redhat.com/rhscl/mysql-80-rhel7
+        name: demo-db
+        ports:
+          - containerPort: 3306
+            protocol: TCP
+        resources: {}
+

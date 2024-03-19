@@ -1,0 +1,15 @@
+##Create Custom Seccomp profile and upload it to nodes
+oc apply -f seccomp-custom.yaml  & oc apply -f seccomp-custom-worker.yaml
+##This will create new seccomp profile at /var/lib/kubelet/seccomp path on node
+## Create a custom SCC using custom-scc.yaml
+
+
+##Create a project demo-scc
+oc new-project demo-scc
+##create a service account demo-scc
+oc create sa demo-scc
+## Assign custom-scc to demo-scc sa
+oc adm policy add-scc-to-user custom-scc -z demo-scc
+
+Create a deployment using demo-scc.yaml
+This deployment will not allow us to run mkdir, chown and chmod commands.
