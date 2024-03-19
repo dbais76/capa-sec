@@ -1,0 +1,18 @@
+Show the default profile 
+https://github.com/moby/moby/blob/master/profiles/seccomp/default.json
+
+1) Create a new container with seccomp unconfined and show seccomp flag as absent
+
+podman run --rm -it --security-opt seccomp=unconfined docker.io/library/alpine
+
+grep Seccomp /proc/$$/status
+
+2) Create a container using custom seccomp profile
+
+podman run --rm -it --security-opt seccomp=custom-seccomp.json fedora bash
+
+mkdir, chown and chmod commands will not work.
+show the seccomp status
+grep Seccomp /proc/$$/status
+
+
