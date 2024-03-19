@@ -24,7 +24,7 @@ ps -ef | grep sleep
  =====================================================================      
  1042  sudo setcap -r  ./nc
  1043  getcap ./nc
- 1044  sudo setcap cap_net_bind_service+p ./nc
+ 1044  sudo setcap cap_net_bind_service+ep ./nc
  1045  getcap ./nc
  1046  sudo setcap -r  ./nc
  1047  getcap ./nc
@@ -39,7 +39,7 @@ ps -ef | grep sleep
   getcap ./nc
  
  then add capabilities to the file
-  sudo setcap cap_net_bind_service+p ./nc
+  sudo setcap cap_net_bind_service+ep ./nc
   show getcap ./nc
  
  and now run 
