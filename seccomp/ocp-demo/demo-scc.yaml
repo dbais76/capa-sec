@@ -4,7 +4,6 @@ metadata:
   labels:
     app: demo-scc
   name: demo-scc
-  namespace: demo-scc
 spec:
   progressDeadlineSeconds: 600
   replicas: 1
