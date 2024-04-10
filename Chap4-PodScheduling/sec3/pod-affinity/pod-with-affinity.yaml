@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-with-affinity
+  labels:
+    app: demo  
+spec:
+  containers:
+  - name: pod-two
+    image: quay.io/dbais76/fedora-httpd-ocp:1.0
+  affinity:
+    podAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution: 
+      - labelSelector:
+          matchExpressions:
+          - key: app 
+            values:
+            - demo
+            operator: In 
+        topologyKey: env 
