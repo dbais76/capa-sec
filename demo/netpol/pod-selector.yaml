@@ -1,0 +1,17 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: from-one-deployment
+spec:
+  podSelector:
+    matchLabels:
+      app: destapp-new
+  ingress:
+    - from:
+      - namespaceSelector:
+          matchLabels:
+            name: remoteapp
+        podSelector:
+          matchLabels:
+            app: srcapp
+
