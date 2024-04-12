@@ -1,0 +1,12 @@
+1) Create two projects - src-fw and dest-fw
+2) Deploy apps in projects as below:
+In src-fw, deploy app:
+oc new-app --as-deployment-config --name srcapp --image quay.io/dbais76/fedora-httpd-ocp:1.0 -l app=srcapp
+
+In dest-fw, deploy apps:
+oc new-app --as-deployment-config --name destapp --image quay.io/dbais76/fedora-httpd-ocp:1.0 -l app=destapp
+oc new-app --as-deployment-config --name destapp-new --image quay.io/dbais76/fedora-httpd-ocp:1.0 -l app=destapp-new
+
+3) Apply policies: default deny, then allow from ns. 
+4) Apply policy for pod-selector. You will find that both pods are accessible. When you delete allow-from-ns, it is correct behaviour.
+
