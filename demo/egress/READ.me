@@ -1,0 +1,5 @@
+1) Build the image using the build.sh script
+2) Run oc new-app ping command to run the pod.
+3) Start debug pod in as-root=true to run ping and curl.
+oc debug pod/<pod-name> --as-root=true
+4) Apply the egress rule and show that all denied accept allowed.
