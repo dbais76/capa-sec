@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: my-demo
+  name: my-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-demo
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: my-demo
+    spec:
+      containers:
+      - image: registry.access.redhat.com/rhscl/httpd-24-rhel7
+        name: examples-helloworld-v1
+        resources:
+          requests:      
+            cpu: "100m"
+
