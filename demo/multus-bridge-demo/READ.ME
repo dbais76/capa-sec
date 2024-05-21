@@ -1,0 +1,19 @@
+THIS DEMO IS FOR MULTUS USING BRIDGE AS PLUGIN and IPAM-Host Local to allocate IP Address. This demo has been tested on DO280 lab v 4.14.
+
+Steps to replicate:
+
+1) Create a new project
+2) Check network-attachment-defintion.yaml and make any changes to it, if oyu want.. Else run the file to create net-attach-def resource.
+3) Run : oc get net-attach-def to verify the resource created.
+4) Deploy application using deployment.yaml
+5) Once the pod is up, edit the deployment and append the annonation.
+
+      annotations:
+        k8s.v1.cni.cncf.io/networks: tryme
+
+This goes under .spec.template.metadata along with labels.
+
+6) New pod should be created with 2 interfaces which can be verified by oc describe pod <pod-name>
+7) On OCP node (master01) in this case, you can run nmcli con show to list the bridge on the host. For the demo, I have used the
+existin bridge, CNI0.
+
